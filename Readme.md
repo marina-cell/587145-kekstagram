@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Марина Целищева](https://up.htmlacademy.ru/javascript/14/user/587145).
-* Наставник: `Неизвестно`.
+* Наставник: [Мурат Баркинхоев](https://htmlacademy.ru/profile/id186857).
 
 ---
 
