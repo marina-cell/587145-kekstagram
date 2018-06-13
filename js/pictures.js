@@ -3,15 +3,31 @@
 var PICTURES_NUMBER = 25;
 var MIN_LIKES_NUMBER = 15;
 var MAX_LIKES_NUMBER = 200;
-var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-var DESCRIPTIONS = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
+
+var COMMENTS = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+
+var DESCRIPTIONS = [
+  'Тестим новую камеру!',
+  'Затусили с друзьями на море',
+  'Как же круто тут кормят',
+  'Отдыхаем...',
+  'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
+  'Вот это тачка!'
+];
 
 var getRandomValue = function (minValue, maxValue) {
-  return Math.floor(Math.random() * maxValue) + minValue;
+  return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
 };
 
 var getRandomValueFromArray = function (array) {
-  return array[getRandomValue(0, array.length)];
+  return array[getRandomValue(0, array.length - 1)];
 };
 
 var getRandomComments = function (array) {
@@ -90,12 +106,10 @@ var createCommentsFragment = function (comments) {
     var commentItem = document.createElement('li');
     commentItem.classList.add('social__comment', 'social__comment--text');
 
-    var commentImage = document.createElement('img');
+    var commentImage = new Image(35, 35);
     commentImage.classList.add('social__picture');
     commentImage.src = 'img/avatar-' + getRandomValue(1, 6) + '.svg';
     commentImage.alt = 'Аватар комментатора фотографии';
-    commentImage.width = '35';
-    commentImage.height = '35';
     commentItem.appendChild(commentImage);
     commentItem.insertAdjacentHTML('beforeend', comments[i]);
     commentsFragment.appendChild(commentItem);
