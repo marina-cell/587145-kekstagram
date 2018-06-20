@@ -144,8 +144,8 @@ for (var j = 0; j < picturesEffects.length; j++) {
 
 var onUploadWindowEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE
-      && evt.currentTarget.activeElement.type !== 'text'
-      && evt.currentTarget.activeElement.type !== 'textarea') {
+      && evt.target.type !== 'text'
+      && evt.target.type !== 'textarea') {
     closeUploadWindow();
   }
 };
@@ -281,7 +281,7 @@ var hideElements = function (elements) {
 };
 
 var onBigPictureEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE && evt.currentTarget.activeElement.type !== 'text') {
+  if (evt.keyCode === ESC_KEYCODE && evt.target.type !== 'text') {
     closeBigPicture();
   }
 };
