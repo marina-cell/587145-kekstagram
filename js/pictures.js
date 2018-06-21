@@ -10,6 +10,8 @@ var MIN_PREVIEW_SIZE = 25;
 var PREVIEW_STEP = 25;
 var MAX_PREVIEW_SIZE = 100;
 var ESC_KEYCODE = 27;
+var MAX_HASHTAG_NUMBER = 5;
+var MAX_HASHTAG_LENGTH = 20;
 
 var COMMENTS = [
   'Всё отлично!',
@@ -69,6 +71,47 @@ var scalePin = scaleBlock.querySelector('.scale__pin');
 var resizeMinusButton = document.querySelector('.resize__control--minus');
 var resizePlusButton = document.querySelector('.resize__control--plus');
 var resizeValue = document.querySelector('.resize__control--value');
+var uploadForm = document.querySelector('.img-upload__form');
+var hashtagText = uploadForm.querySelector('.text__hashtags');
+var uploadFormSubmitButton = uploadForm.querySelector('.img-upload__submit');
+
+uploadForm.addEventListener('invalid', function (evt) {
+  evt.target.style.outline = '2px solid #ff0000';
+  evt.target.addEventListener('keydown', function () {
+    evt.target.style = 'initial';
+    hashtagText.setCustomValidity('');
+  });
+}, true);
+
+uploadFormSubmitButton.addEventListener('click', function () {
+  if (hashtagText.value !== '') {
+    var hashtags = hashtagText.value.split(' ');
+
+    for (var i = 0; i < hashtags.length; i++) {
+      var element = hashtags[i];
+      if (hashtags[i].indexOf('#') !== 0) {
+        hashtagText.setCustomValidity('Хеш-тег должен начинаться с символа # (решётка)');
+      }
+      if (hashtags[i].substr(1).indexOf('#') !== -1) {
+        hashtagText.setCustomValidity('Хэш-теги должны быть отделены пробелами друг от друга');
+      }
+      if (hashtags[i] === '#') {
+        hashtagText.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+      }
+      if (i > MAX_HASHTAG_NUMBER - 1) {
+        hashtagText.setCustomValidity('Максимальное количество хэш-тегов равно: ' + MAX_HASHTAG_NUMBER);
+      }
+      if (hashtags[i].length > MAX_HASHTAG_LENGTH) {
+        hashtagText.setCustomValidity('Максимальная длина одного хэш-тега равна ' + MAX_HASHTAG_LENGTH + ' символов, включая решётку');
+      }
+      for (var j = i + 1; j < hashtags.length; j++) {
+        if (element.toLowerCase() === hashtags[j].toLowerCase()) {
+          hashtagText.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды. Теги нечувствительны к регистру');
+        }
+      }
+    }
+  }
+});
 
 var changePreviewSize = function (size) {
   resizeValue.readonly = false;
