@@ -78,7 +78,7 @@ var uploadFormSubmitButton = uploadForm.querySelector('.img-upload__submit');
 uploadForm.addEventListener('invalid', function (evt) {
   evt.target.style.outline = '2px solid #ff0000';
   evt.target.addEventListener('keydown', function () {
-    evt.target.style = 'initial';
+    evt.target.style = '';
     hashtagText.setCustomValidity('');
   });
 }, true);
@@ -137,12 +137,22 @@ resizePlusButton.addEventListener('click', function () {
   changePreviewSize(size);
 });
 
+var calculateScaleOffset = function (coordinate) {
+  var value = Math.round(coordinate * 100 / FULL_SCALE);
+  value = (value < 0) ? 0 : value;
+  value = (value > 100) ? 100 : value;
+  return value;
+};
+
 var setOffsetForEffect = function (isDefault) {
   var currentEffect = effectsBlock.querySelector('input[name=effect]:checked').value;
   var scaleValue = scaleBlock.querySelector('.scale__value');
+  var scaleLevel = scaleBlock.querySelector('.scale__level');
 
-  var offset = isDefault ? DEFAULT_SCALE_VALUE : Math.round(scalePin.offsetLeft * 100 / FULL_SCALE);
+  var offset = isDefault ? DEFAULT_SCALE_VALUE : calculateScaleOffset(scalePin.offsetLeft);
   scaleValue.value = offset;
+  scaleLevel.style.width = offset + '%';
+  scalePin.style.left = offset + '%';
 
   switch (currentEffect) {
     case 'none': previewImage.style.filter = '';
@@ -177,8 +187,33 @@ var setEventsForEffects = function (effect) {
   });
 };
 
-scalePin.addEventListener('mouseup', function () {
-  setOffsetForEffect();
+scalePin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoordinate = evt.clientX;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = startCoordinate - moveEvt.clientX;
+
+    startCoordinate = moveEvt.clientX;
+
+    var offset = calculateScaleOffset(scalePin.offsetLeft - shift);
+    scalePin.style.left = offset + '%';
+
+    setOffsetForEffect();
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 for (var j = 0; j < picturesEffects.length; j++) {
