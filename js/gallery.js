@@ -2,19 +2,21 @@
 
 (function () {
 
-  var picturesLinks = document.querySelectorAll('.picture__link');
+  var successHandler = function (picturesForRender) {
+    window.renderPicturesFragment(picturesForRender);
 
-  var picturesForRender = window.createPicturesArray();
+    var picturesLinks = document.querySelectorAll('.picture__link');
 
-  window.renderPicturesFragment(picturesForRender);
+    var setEventsForPictures = function (picture, data) {
+      picture.addEventListener('click', function () {
+        window.renderBigPicture(data);
+      });
+    };
 
-  var setEventsForPictures = function (picture, data) {
-    picture.addEventListener('click', function () {
-      window.renderBigPicture(data);
-    });
+    for (var i = 0; i < picturesLinks.length; i++) {
+      setEventsForPictures(picturesLinks[i], picturesForRender[i]);
+    }
   };
 
-  for (var i = 0; i < picturesLinks.length; i++) {
-    setEventsForPictures(picturesLinks[i], picturesForRender[i]);
-  }
+  window.backend.load(successHandler, window.backend.errorHandler);
 })();

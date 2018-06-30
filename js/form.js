@@ -52,6 +52,7 @@
   var resizePlusButton = document.querySelector('.resize__control--plus');
   var resizeValue = document.querySelector('.resize__control--value');
   var hashtagText = uploadForm.querySelector('.text__hashtags');
+  var descriptionText = uploadForm.querySelector('.text__description');
 
   var calculateScaleOffset = function (coordinate) {
     var value = Math.round(coordinate * 100 / FULL_SCALE);
@@ -164,22 +165,32 @@
     window.util.isEscEvent(evt, closeUploadWindow);
   };
 
+  var setDefaultPictureSettings = function () {
+    var currentCheckedEffect = effectsBlock.querySelector('input[name=effect]:checked');
+    var defaultCheckedEffect = effectsBlock.querySelector('input[name=effect][checked]');
+    currentCheckedEffect.checked = false;
+    defaultCheckedEffect.checked = true;
+
+    var defaultEffect = {
+      effectId: '#' + defaultCheckedEffect.id,
+      effectClass: 'effects__preview--' + defaultCheckedEffect.value
+    };
+
+    changeParamsForEffect(defaultEffect);
+    changePreviewSize(DEFAULT_PERCENT_VALUE);
+    hashtagText.value = '';
+    descriptionText.value = '';
+  };
+
   var openUploadWindow = function () {
     imgUploadWindow.classList.remove('hidden');
-    changePreviewSize(DEFAULT_PERCENT_VALUE);
-    var defaultEffect = {
-      effectId: '#' + effectsBlock.querySelector('input[name=effect]:checked').id,
-      effectClass: 'effects__preview--' + effectsBlock.querySelector('input[name=effect]:checked').value
-    };
-    changeParamsForEffect(defaultEffect);
-
+    setDefaultPictureSettings();
     document.addEventListener('keydown', onUploadWindowEscPress);
   };
 
   var closeUploadWindow = function () {
     imgUploadWindow.classList.add('hidden');
     uploadFileButton.value = '';
-
     document.removeEventListener('keydown', onUploadWindowEscPress);
   };
 
@@ -192,7 +203,6 @@
   });
 
   // Валидация формы
-
   uploadForm.addEventListener('invalid', function (evt) {
     evt.target.style.outline = '2px solid #ff0000';
     evt.target.addEventListener('keydown', function () {
@@ -229,5 +239,10 @@
         }
       }
     }
+  });
+
+  uploadForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(uploadForm), closeUploadWindow, window.backend.errorHandler);
+    evt.preventDefault();
   });
 })();
