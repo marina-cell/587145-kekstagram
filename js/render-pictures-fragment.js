@@ -13,13 +13,31 @@
     return pictureElement;
   };
 
-  window.renderPicturesFragment = function (pictures) {
+  window.renderPicturesFragment = function () {
     var picturesListElement = document.querySelector('.pictures');
+    var CHILDREN_NUMBER = 2;
+
+    while (picturesListElement.children.length > CHILDREN_NUMBER) {
+      picturesListElement.removeChild(picturesListElement.lastChild);
+    }
+
     var picturesFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pictures.length; i++) {
-      picturesFragment.appendChild(renderPicture(pictures[i]));
+    for (var i = 0; i < window.gallery.filtered.length; i++) {
+      picturesFragment.appendChild(renderPicture(window.gallery.filtered[i]));
     }
     picturesListElement.appendChild(picturesFragment);
+
+    var picturesLinks = document.querySelectorAll('.picture__link');
+
+    var setEventsForPictures = function (picture, data) {
+      picture.addEventListener('click', function () {
+        window.renderBigPicture(data);
+      });
+    };
+
+    for (var j = 0; j < picturesLinks.length; j++) {
+      setEventsForPictures(picturesLinks[j], window.gallery.filtered[j]);
+    }
   };
 })();
