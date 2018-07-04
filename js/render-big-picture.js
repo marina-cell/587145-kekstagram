@@ -36,6 +36,7 @@
   var closeBigPicture = function () {
     bigPictureElement.classList.add('hidden');
     document.removeEventListener('keydown', onBigPictureEscPress);
+    document.body.classList.remove('modal-open');
   };
 
   window.renderBigPicture = function (picture) {
@@ -54,5 +55,6 @@
     });
 
     document.addEventListener('keydown', onBigPictureEscPress);
+    document.body.classList.add('modal-open');
   };
 })();

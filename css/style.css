@@ -290,6 +290,7 @@ main {
   -ms-grid-row: 1;
   -ms-grid-row-span: 3;
   grid-row: 1 / span 3;
+  position: relative;
 }
 
 .img-upload__wrapper {
@@ -455,6 +456,7 @@ main {
 
 .img-upload__message--error {
   padding-top: 275px;
+  z-index: 1;
 
   font-family: "Open Sans", "Arial", sans-serif;
   font-weight: 400;
