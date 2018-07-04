@@ -133,9 +133,9 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  for (var k = 0; k < picturesEffects.length; k++) {
-    setEventsForEffects(picturesEffects[k]);
-  }
+  picturesEffects.forEach(function (effect) {
+    setEventsForEffects(effect);
+  });
 
   var changePreviewSize = function (size) {
     resizeValue.readonly = false;
@@ -215,29 +215,28 @@
     if (hashtagText.value !== '') {
       var hashtags = hashtagText.value.split(' ');
 
-      for (var i = 0; i < hashtags.length; i++) {
-        var element = hashtags[i];
-        if (hashtags[i].indexOf('#') !== 0) {
+      hashtags.forEach(function (element, index, array) {
+        if (element.indexOf('#') !== 0) {
           hashtagText.setCustomValidity('Хеш-тег должен начинаться с символа # (решётка)');
         }
-        if (hashtags[i].substr(1).indexOf('#') !== -1) {
+        if (element.substr(1).indexOf('#') !== -1) {
           hashtagText.setCustomValidity('Хэш-теги должны быть отделены пробелами друг от друга');
         }
-        if (hashtags[i] === '#') {
+        if (element === '#') {
           hashtagText.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
         }
-        if (i > MAX_HASHTAG_NUMBER - 1) {
+        if (index > MAX_HASHTAG_NUMBER - 1) {
           hashtagText.setCustomValidity('Максимальное количество хэш-тегов равно: ' + MAX_HASHTAG_NUMBER);
         }
-        if (hashtags[i].length > MAX_HASHTAG_LENGTH) {
+        if (array[index].length > MAX_HASHTAG_LENGTH) {
           hashtagText.setCustomValidity('Максимальная длина одного хэш-тега равна ' + MAX_HASHTAG_LENGTH + ' символов, включая решётку');
         }
-        for (var j = i + 1; j < hashtags.length; j++) {
-          if (element.toLowerCase() === hashtags[j].toLowerCase()) {
+        for (var j = index + 1; j < array.length; j++) {
+          if (array[index].toLowerCase() === array[j].toLowerCase()) {
             hashtagText.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды. Теги нечувствительны к регистру');
           }
         }
-      }
+      });
     }
   });
 
