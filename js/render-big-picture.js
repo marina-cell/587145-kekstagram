@@ -13,7 +13,7 @@
       commentsElement.removeChild(commentsElement.firstChild);
     }
 
-    for (var i = 0; i < comments.length; i++) {
+    comments.forEach(function (comment) {
       var commentItem = document.createElement('li');
       commentItem.classList.add('social__comment', 'social__comment--text');
 
@@ -22,9 +22,9 @@
       commentImage.src = 'img/avatar-' + window.util.getRandomValue(1, 6) + '.svg';
       commentImage.alt = 'Аватар комментатора фотографии';
       commentItem.appendChild(commentImage);
-      commentItem.insertAdjacentHTML('beforeend', comments[i]);
+      commentItem.insertAdjacentHTML('beforeend', comment);
       commentsFragment.appendChild(commentItem);
-    }
+    });
     commentsElement.appendChild(commentsFragment);
     commentsElement.style['padding-top'] = '20px';
   };

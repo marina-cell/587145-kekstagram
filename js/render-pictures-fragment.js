@@ -23,9 +23,10 @@
 
     var picturesFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.gallery.filtered.length; i++) {
-      picturesFragment.appendChild(renderPicture(window.gallery.filtered[i]));
-    }
+    window.gallery.filtered.forEach(function (picture) {
+      picturesFragment.appendChild(renderPicture(picture));
+    });
+
     picturesListElement.appendChild(picturesFragment);
 
     var picturesLinks = document.querySelectorAll('.picture__link');
@@ -36,8 +37,8 @@
       });
     };
 
-    for (var j = 0; j < picturesLinks.length; j++) {
-      setEventsForPictures(picturesLinks[j], window.gallery.filtered[j]);
-    }
+    Array.from(picturesLinks).forEach(function (link, index) {
+      setEventsForPictures(link, window.gallery.filtered[index]);
+    });
   };
 })();

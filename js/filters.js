@@ -8,13 +8,9 @@
   var discussedPicturesFilter = filtersBlock.querySelector('#filter-discussed');
 
   var shuffle = function (arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
-      var num = Math.floor(Math.random() * (i + 1));
-      var d = arr[num];
-      arr[num] = arr[i];
-      arr[i] = d;
-    }
-    return arr;
+    return arr.sort(function () {
+      return Math.random() - 0.5;
+    });
   };
 
   var filterPictures = function (filter) {
@@ -23,7 +19,7 @@
       window.gallery.filtered = shuffle(window.gallery.filtered).slice(0, 10);
     } else if (filter === discussedPicturesFilter) {
       window.gallery.filtered.sort(function (left, right) {
-        return left.comments.length - right.comments.length;
+        return right.comments.length - left.comments.length;
       });
     }
     window.debounce(function () {
@@ -35,9 +31,11 @@
     renderFilterBlock: function () {
       Array.from(filterButtons).forEach(function (button) {
         button.addEventListener('click', function (evt) {
-          for (var i = 0; i < filterButtons.length; i++) {
-            filterButtons[i].classList.remove('img-filters__button--active');
-          }
+          // Удалим класс active у всех кнопок
+          Array.from(filterButtons).forEach(function (btn) {
+            btn.classList.remove('img-filters__button--active');
+          });
+          // И добавим активной
           button.classList.add('img-filters__button--active');
           filterPictures(evt.target);
         });
