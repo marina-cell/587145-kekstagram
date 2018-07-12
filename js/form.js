@@ -240,8 +240,21 @@
     }
   });
 
+  var errorHandler = function (errorMessage) {
+    var errorWindows = document.querySelectorAll('.img-upload__message--error');
+    var errorWindow = errorWindows[errorWindows.length - 1];
+    var node = document.createElement('div');
+    node.style.padding = '10px';
+    node.style.fontSize = '20px';
+
+    node.textContent = errorMessage;
+    errorWindow.insertAdjacentElement('afterbegin', node);
+    closeUploadWindow();
+    errorWindow.classList.remove('hidden');
+  };
+
   uploadForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(uploadForm), closeUploadWindow, window.backend.errorHandler);
+    window.backend.save(new FormData(uploadForm), closeUploadWindow, errorHandler);
     evt.preventDefault();
   });
 })();
