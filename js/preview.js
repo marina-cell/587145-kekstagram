@@ -6,8 +6,19 @@
 
   var fileChooser = document.querySelector('#upload-file');
   var preview = document.querySelector('.img-upload__preview img');
+  var smallPreviews = document.querySelectorAll('.effects__preview');
+
+  var renderPreviewImage = function (previewImage) {
+    preview.src = previewImage;
+
+    Array.from(smallPreviews).forEach(function (element) {
+      element.style['background-image'] = 'url(' + previewImage + ')';
+    });
+  };
 
   fileChooser.addEventListener('change', function () {
+    renderPreviewImage('');
+
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -19,7 +30,7 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        preview.src = reader.result;
+        renderPreviewImage(reader.result);
       });
 
       reader.readAsDataURL(file);
