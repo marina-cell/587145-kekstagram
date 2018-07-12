@@ -82,6 +82,7 @@
     bigPictureElement.classList.remove('hidden');
     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = picture.url;
     bigPictureElement.querySelector('.likes-count').textContent = picture.likes;
+    bigPictureElement.querySelector('.social__caption').textContent = '';
 
     var commentsCount = picture.comments.length < DISPLAYED_COMMENTS_COUNT ? picture.comments.length : DISPLAYED_COMMENTS_COUNT;
     renderCommentsCounts(commentsCount, picture.comments.length);
