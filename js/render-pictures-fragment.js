@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var CHILDREN_NUMBER = 2;
 
   var renderPicture = function (picture) {
     var pictureTemplate = document.querySelector('#picture').content;
@@ -15,7 +16,6 @@
 
   window.renderPicturesFragment = function () {
     var picturesListElement = document.querySelector('.pictures');
-    var CHILDREN_NUMBER = 2;
 
     while (picturesListElement.children.length > CHILDREN_NUMBER) {
       picturesListElement.removeChild(picturesListElement.lastChild);

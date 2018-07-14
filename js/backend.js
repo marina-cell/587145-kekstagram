@@ -48,13 +48,7 @@
     errorHandler: function (errorMessage) {
       var node = document.createElement('div');
 
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: pink; color: red;';
-      node.style.position = 'fixed';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.padding = '10px';
-      node.style.fontSize = '20px';
-      node.style['text-transform'] = 'none';
+      node.style = 'position: fixed; left: 0; right: 0; z-index: 100; margin: 0 auto; padding: 10px; text-align: center; text-transform: none; font-size: 20px; color: red; background-color: pink';
 
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);

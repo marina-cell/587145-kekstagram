@@ -6,7 +6,9 @@
   var MAX_HASHTAG_LENGTH = 20;
   var FULL_SCALE = 453;
   var DEFAULT_SCALE_VALUE = 100;
-  var DEFAULT_PERCENT_VALUE = 100;
+  var MAX_PERCENT_VALUE = 100;
+  var DEFAULT_PERCENT_VALUE = MAX_PERCENT_VALUE;
+  var MAX_EFFECT_VALUE = 3;
   var MIN_PREVIEW_SIZE = 25;
   var PREVIEW_STEP = 25;
   var MAX_PREVIEW_SIZE = 100;
@@ -74,15 +76,15 @@
     switch (currentEffect) {
       case 'none': previewImage.style.filter = '';
         break;
-      case 'chrome': previewImage.style.filter = 'grayscale(' + (offset * 0.01) + ')';
+      case 'chrome': previewImage.style.filter = 'grayscale(' + (offset / MAX_PERCENT_VALUE) + ')';
         break;
-      case 'sepia': previewImage.style.filter = 'sepia(' + (offset * 0.01) + ')';
+      case 'sepia': previewImage.style.filter = 'sepia(' + (offset / MAX_PERCENT_VALUE) + ')';
         break;
       case 'marvin': previewImage.style.filter = 'invert(' + offset + '%)';
         break;
-      case 'phobos': previewImage.style.filter = 'blur(' + (offset * 0.03) + 'px)';
+      case 'phobos': previewImage.style.filter = 'blur(' + (offset * MAX_EFFECT_VALUE / MAX_PERCENT_VALUE) + 'px)';
         break;
-      case 'heat': previewImage.style.filter = 'brightness(' + (offset * 0.03) + ')';
+      case 'heat': previewImage.style.filter = 'brightness(' + (offset * MAX_EFFECT_VALUE / MAX_PERCENT_VALUE) + ')';
         break;
     }
   };
@@ -244,8 +246,7 @@
     var errorWindows = document.querySelectorAll('.img-upload__message--error');
     var errorWindow = errorWindows[errorWindows.length - 1];
     var node = document.createElement('div');
-    node.style.padding = '10px';
-    node.style.fontSize = '20px';
+    node.style = 'padding: 10px; font-size: 20px';
 
     node.textContent = errorMessage;
     errorWindow.insertAdjacentElement('afterbegin', node);
